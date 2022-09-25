@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32901.215
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockBlobClientRangeCopyExtension", "BlockBlobClientRangeCopyExtension\BlockBlobClientRangeCopyExtension.csproj", "{55918125-7623-405B-9751-8150644E3C26}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample-IncrementalCopyFunction", "Sample-IncrementalCopyFunction\Sample-IncrementalCopyFunction.csproj", "{1DBE3FF7-BAF2-47A9-9F3D-F88F63D4DCAD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{55918125-7623-405B-9751-8150644E3C26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55918125-7623-405B-9751-8150644E3C26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55918125-7623-405B-9751-8150644E3C26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55918125-7623-405B-9751-8150644E3C26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DBE3FF7-BAF2-47A9-9F3D-F88F63D4DCAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DBE3FF7-BAF2-47A9-9F3D-F88F63D4DCAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DBE3FF7-BAF2-47A9-9F3D-F88F63D4DCAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DBE3FF7-BAF2-47A9-9F3D-F88F63D4DCAD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {029BCD0C-D8C5-4D68-AC5E-EA26104A0ADC}
+	EndGlobalSection
+EndGlobal
