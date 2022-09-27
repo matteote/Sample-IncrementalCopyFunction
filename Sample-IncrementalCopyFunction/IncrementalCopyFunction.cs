@@ -118,7 +118,7 @@ namespace IncrementalCopyFunction
 
             BlobUriBuilder blobUriBuilder = new(uri);
 
-            blobUriBuilder.AccountName = targetStorageAccount;
+            blobUriBuilder.Host = $"{targetStorageAccount}.blob.core.windows.net";
             blobUriBuilder.BlobContainerName = targetContainer;
 
             // A timestamp is appended to the blob name
