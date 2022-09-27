@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using Azure;
 using Azure.Identity;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Specialized;
@@ -20,6 +21,8 @@ namespace IncrementalCopyFunction
         public async Task Run([TimerTrigger("%SCHEDULE%")] TimerInfo myTimer, ILogger log)
         {
             log.LogInformation("Function starting.");
+
+            var sourceToken = GetStorageToken();
 
             // Process all blobs tracked in the database
             await foreach ((Uri sourceBlobUri, long currentOffset) in GetTrackedBlobs())
@@ -45,9 +48,15 @@ namespace IncrementalCopyFunction
 
                         var targetBlockBlobClient = GetBlockBlobClient(targetBlobUri);
 
+                        var sourceAuthentication = new HttpAuthorization(
+                            scheme: "Bearer",
+                            parameter: sourceToken
+                            );
+
                         // Copy the newest portion of the source blob to the target blob
                         await targetBlockBlobClient.CopyRangeFromUriAsync(
                             sourceBlobUri,
+                            sourceAuthentication,
                             currentOffset,
                             copyLength);
 
@@ -74,6 +83,14 @@ namespace IncrementalCopyFunction
             }
 
             log.LogInformation("Function completed.");
+        }
+
+        private string GetStorageToken()
+        {
+            var credential = new DefaultAzureCredential();
+            return credential
+                .GetToken(new(new[] { "https://storage.azure.com/" }))
+                .Token;
         }
 
         // Instantiates a new BlockBlobClient for the specified URI

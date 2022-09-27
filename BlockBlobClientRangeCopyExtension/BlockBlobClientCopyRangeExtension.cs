@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using Azure;
 using Azure.Storage.Blobs.Specialized;
 using System.Text;
 
@@ -28,6 +29,14 @@ namespace BlockBlobClientCopyRangeExtension
         /// </param>
         /// <param name="sourceBlobUri">
         /// Specifies the URI of the blob data are copied from.
+        /// </param>
+        /// <param name="sourceAuthentication">
+        /// Specifies the authentication details for the source blob.
+        /// The HttpAuthorization class allows to specify a scheme and the authentication
+        /// informantion.
+        /// At the moment only AAD authentication with Bearer scheme is supported.
+        /// Scheme must be set to "Bearer" and Parameter must be set to a valid AAD token
+        /// issued for the "https://storage.azure.com/" scope.
         /// </param>
         /// <param name="offset">
         /// Specifies the zero-based offset within the source blob of the range
@@ -64,6 +73,7 @@ namespace BlockBlobClientCopyRangeExtension
         public static async Task CopyRangeFromUriAsync(
             this BlockBlobClient targetBlockBlobClient,
             Uri sourceBlobUri,
+            HttpAuthorization sourceAuthentication,
             long offset,
             long length,
             bool append = false,
@@ -157,7 +167,11 @@ namespace BlockBlobClientCopyRangeExtension
                 await targetBlockBlobClient.StageBlockFromUriAsync(
                     sourceBlobUri,
                     blockId,
-                    new() { SourceRange = new(offset, blockLength) },
+                    new()
+                    {
+                        SourceRange = new(offset, blockLength),
+                        SourceAuthentication = sourceAuthentication
+                    },
                     cancellationToken: cancellationToken);
 
                 blockIds.Add(blockId);
@@ -203,6 +217,14 @@ namespace BlockBlobClientCopyRangeExtension
         /// <param name="sourceBlobUri">
         /// Specifies the URI of the blob data are copied from.
         /// </param>
+        /// <param name="sourceAuthentication">
+        /// Specifies the authentication details for the source blob.
+        /// The HttpAuthorization class allows to specify a scheme and the authentication
+        /// informantion.
+        /// At the moment only AAD authentication with Bearer scheme is supported.
+        /// Scheme must be set to "Bearer" and Parameter must be set to a valid AAD token
+        /// issued for the "https://storage.azure.com/" scope.
+        /// </param>
         /// <param name="offset">
         /// Specifies the zero-based offset within the source blob of the range
         /// of bytes to copy.
@@ -238,6 +260,7 @@ namespace BlockBlobClientCopyRangeExtension
         public static void CopyRangeFromUri(
             this BlockBlobClient targetBlockBlobClient,
             Uri sourceBlobUri,
+            HttpAuthorization sourceAuthentication,
             long offset,
             long length,
             bool append = false,
@@ -329,7 +352,10 @@ namespace BlockBlobClientCopyRangeExtension
                 targetBlockBlobClient.StageBlockFromUri(
                     sourceBlobUri,
                     blockId,
-                    new() { SourceRange = new(offset, blockLength) },
+                    new() {
+                        SourceRange = new(offset, blockLength),
+                        SourceAuthentication = sourceAuthentication
+                    },
                     cancellationToken: cancellationToken);
 
                 blockIds.Add(blockId);
